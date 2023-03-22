@@ -6,7 +6,7 @@ const LinkedList = () => {
   const append = (value) => {
     const newNode = ListNode(value);
 
-    if (!list) {
+    if (!list || (list && Object.keys(list).length === 0)) {
       list = newNode;
     } else {
       let listCopy = list.next ? { ...list } : list;
@@ -20,7 +20,7 @@ const LinkedList = () => {
   };
 
   const prepend = (value) => {
-    if (!list) {
+    if (!list || (list && Object.keys(list).length === 0)) {
       const newNode = ListNode(value);
       list = newNode;
     } else {
@@ -30,14 +30,15 @@ const LinkedList = () => {
   };
 
   const size = () => {
-    let listCopy;
     let counter = 0;
 
-    if (list) listCopy = { ...list };
+    if (list && Object.keys(list).length > 0) {
+      let listCopy = { ...list };
 
-    while (listCopy) {
-      counter++;
-      listCopy = listCopy.next;
+      while (listCopy) {
+        counter++;
+        listCopy = listCopy.next;
+      }
     }
 
     return counter;
@@ -62,7 +63,7 @@ const LinkedList = () => {
   const at = (index) => {
     let listCopy;
 
-    if (list && index >= 0) {
+    if (list && Object.keys(list).length > 0 && index >= 0) {
       listCopy = { ...list };
 
       for (let i = 0; i < index; i++) {
@@ -77,7 +78,25 @@ const LinkedList = () => {
     return listCopy;
   };
 
-  return { append, prepend, size, head, tail, at };
+  const pop = () => {
+    if (list) {
+      if (!list.next) {
+        list = {};
+      } else if (!list.next.next) {
+        list.next = null;
+      } else {
+        let listCopy = { ...list };
+
+        while (listCopy.next.next) {
+          listCopy = listCopy.next;
+        }
+
+        listCopy.next = null;
+      }
+    }
+  };
+
+  return { append, prepend, size, head, tail, at, pop };
 };
 
 export default LinkedList;
