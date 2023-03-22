@@ -59,7 +59,25 @@ const LinkedList = () => {
     return listCopy;
   };
 
-  return { append, prepend, size, head, tail };
+  const at = (index) => {
+    let listCopy;
+
+    if (list && index >= 0) {
+      listCopy = { ...list };
+
+      for (let i = 0; i < index; i++) {
+        if (listCopy.next) {
+          listCopy = listCopy.next;
+        } else {
+          return undefined;
+        }
+      }
+    }
+
+    return listCopy;
+  };
+
+  return { append, prepend, size, head, tail, at };
 };
 
 export default LinkedList;
