@@ -147,6 +147,24 @@ const LinkedList = () => {
     }
   };
 
+  const insertAt = (value, index) => {
+    if (!list || index <= 0) {
+      prepend(value);
+    } else if (index >= size(list)) {
+      append(value);
+    } else {
+      let listCopy = { ...list };
+
+      for (let i = 0; i < index - 1; i++) {
+        listCopy = listCopy.next;
+      }
+
+      const newNode = ListNode(value, listCopy.next);
+
+      listCopy.next = newNode;
+    }
+  };
+
   return {
     append,
     prepend,
@@ -158,6 +176,7 @@ const LinkedList = () => {
     contains,
     find,
     toString,
+    insertAt,
   };
 };
 
