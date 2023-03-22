@@ -45,7 +45,21 @@ const LinkedList = () => {
 
   const head = () => list;
 
-  return { append, prepend, size, head };
+  const tail = () => {
+    let listCopy;
+
+    if (list) {
+      listCopy = { ...list };
+
+      while (listCopy.next) {
+        listCopy = listCopy.next;
+      }
+    }
+
+    return listCopy;
+  };
+
+  return { append, prepend, size, head, tail };
 };
 
 export default LinkedList;
