@@ -1,16 +1,16 @@
 import ListNode from "./listNode";
 
 const LinkedList = () => {
-  let list = {};
+  let list;
 
   const append = (value) => {
-    if (Object.keys(list).length === 0) {
-      list.value = value;
-      list.next = null;
-    } else {
-      const newNode = ListNode(value);
+    const newNode = ListNode(value);
 
-      let listCopy = { ...list };
+    if (!list) {
+      list = newNode;
+    } else {
+      let listCopy = list.next ? { ...list } : list;
+
       while (listCopy.next) {
         listCopy = listCopy.next;
       }
@@ -20,16 +20,30 @@ const LinkedList = () => {
   };
 
   const prepend = (value) => {
-    if (Object.keys(list).length === 0) {
-      list.value = value;
-      list.next = null;
+    if (!list) {
+      const newNode = ListNode(value);
+      list = newNode;
     } else {
       const newNode = ListNode(value, list);
       list = newNode;
     }
   };
 
-  return { append, prepend };
+  const size = () => {
+    let listCopy;
+    let counter = 0;
+
+    if (list) listCopy = { ...list };
+
+    while (listCopy) {
+      counter++;
+      listCopy = listCopy.next;
+    }
+
+    return counter;
+  };
+
+  return { append, prepend, size };
 };
 
 export default LinkedList;
