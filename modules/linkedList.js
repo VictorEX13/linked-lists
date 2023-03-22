@@ -43,7 +43,9 @@ const LinkedList = () => {
     return counter;
   };
 
-  return { append, prepend, size };
+  const head = () => list;
+
+  return { append, prepend, size, head };
 };
 
 export default LinkedList;
