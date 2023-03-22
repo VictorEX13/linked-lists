@@ -96,7 +96,26 @@ const LinkedList = () => {
     }
   };
 
-  return { append, prepend, size, head, tail, at, pop };
+  const contains = (value) => {
+    let doContain = false;
+
+    if (list && Object.keys(list).length > 0) {
+      let listCopy = { ...list };
+
+      while (listCopy) {
+        if (listCopy.value === value) {
+          doContain = true;
+          break;
+        } else {
+          listCopy = listCopy.next;
+        }
+      }
+    }
+
+    return doContain;
+  };
+
+  return { append, prepend, size, head, tail, at, pop, contains };
 };
 
 export default LinkedList;
