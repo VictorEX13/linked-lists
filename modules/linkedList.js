@@ -133,7 +133,32 @@ const LinkedList = () => {
     }
   };
 
-  return { append, prepend, size, head, tail, at, pop, contains, find };
+  const toString = () => {
+    if (list && Object.keys(list).length > 0) {
+      let listCopy = { ...list };
+      let result = "";
+
+      while (listCopy) {
+        result += `( ${listCopy.value} ) -> `;
+        listCopy = listCopy.next;
+      }
+
+      return result + "null";
+    }
+  };
+
+  return {
+    append,
+    prepend,
+    size,
+    head,
+    tail,
+    at,
+    pop,
+    contains,
+    find,
+    toString,
+  };
 };
 
 export default LinkedList;
