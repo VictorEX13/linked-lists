@@ -9,13 +9,13 @@ const LinkedList = () => {
     if (!list || (list && Object.keys(list).length === 0)) {
       list = newNode;
     } else {
-      let listCopy = list.next ? { ...list } : list;
+      let currentNode = list.next ? { ...list } : list;
 
-      while (listCopy.next) {
-        listCopy = listCopy.next;
+      while (currentNode.next) {
+        currentNode = currentNode.next;
       }
 
-      listCopy.next = newNode;
+      currentNode.next = newNode;
     }
   };
 
@@ -33,11 +33,11 @@ const LinkedList = () => {
     let counter = 0;
 
     if (list && Object.keys(list).length > 0) {
-      let listCopy = { ...list };
+      let currentNode = { ...list };
 
-      while (listCopy) {
+      while (currentNode) {
         counter++;
-        listCopy = listCopy.next;
+        currentNode = currentNode.next;
       }
     }
 
@@ -47,35 +47,35 @@ const LinkedList = () => {
   const head = () => list;
 
   const tail = () => {
-    let listCopy;
+    let currentNode;
 
     if (list) {
-      listCopy = { ...list };
+      currentNode = { ...list };
 
-      while (listCopy.next) {
-        listCopy = listCopy.next;
+      while (currentNode.next) {
+        currentNode = currentNode.next;
       }
     }
 
-    return listCopy;
+    return currentNode;
   };
 
   const at = (index) => {
-    let listCopy;
+    let currentNode;
 
     if (list && Object.keys(list).length > 0 && index >= 0) {
-      listCopy = { ...list };
+      currentNode = { ...list };
 
       for (let i = 0; i < index; i++) {
-        if (listCopy.next) {
-          listCopy = listCopy.next;
+        if (currentNode.next) {
+          currentNode = currentNode.next;
         } else {
           return undefined;
         }
       }
     }
 
-    return listCopy;
+    return currentNode;
   };
 
   const pop = () => {
@@ -85,13 +85,13 @@ const LinkedList = () => {
       } else if (!list.next.next) {
         list.next = null;
       } else {
-        let listCopy = { ...list };
+        let currentNode = { ...list };
 
-        while (listCopy.next.next) {
-          listCopy = listCopy.next;
+        while (currentNode.next.next) {
+          currentNode = currentNode.next;
         }
 
-        listCopy.next = null;
+        currentNode.next = null;
       }
     }
   };
@@ -100,14 +100,14 @@ const LinkedList = () => {
     let doContain = false;
 
     if (list && Object.keys(list).length > 0) {
-      let listCopy = { ...list };
+      let currentNode = { ...list };
 
-      while (listCopy) {
-        if (listCopy.value === value) {
+      while (currentNode) {
+        if (currentNode.value === value) {
           doContain = true;
           break;
         } else {
-          listCopy = listCopy.next;
+          currentNode = currentNode.next;
         }
       }
     }
@@ -117,15 +117,15 @@ const LinkedList = () => {
 
   const find = (value) => {
     if (list && Object.keys(list).length > 0 && contains(value)) {
-      let listCopy = { ...list };
+      let currentNode = { ...list };
       let index = 0;
 
-      while (listCopy) {
-        if (listCopy.value === value) {
+      while (currentNode) {
+        if (currentNode.value === value) {
           return index;
         } else {
           index++;
-          listCopy = listCopy.next;
+          currentNode = currentNode.next;
         }
       }
     } else {
@@ -135,12 +135,12 @@ const LinkedList = () => {
 
   const toString = () => {
     if (list && Object.keys(list).length > 0) {
-      let listCopy = { ...list };
+      let currentNode = { ...list };
       let result = "";
 
-      while (listCopy) {
-        result += `( ${listCopy.value} ) -> `;
-        listCopy = listCopy.next;
+      while (currentNode) {
+        result += `( ${currentNode.value} ) -> `;
+        currentNode = currentNode.next;
       }
 
       return result + "null";
@@ -153,15 +153,46 @@ const LinkedList = () => {
     } else if (index >= size(list)) {
       append(value);
     } else {
-      let listCopy = { ...list };
+      let currentNode = { ...list };
 
       for (let i = 0; i < index - 1; i++) {
-        listCopy = listCopy.next;
+        currentNode = currentNode.next;
       }
 
-      const newNode = ListNode(value, listCopy.next);
+      const newNode = ListNode(value, currentNode.next);
 
-      listCopy.next = newNode;
+      currentNode.next = newNode;
+    }
+  };
+
+  const removeAt = (index) => {
+    if (
+      list &&
+      Object.keys(list).length > 0 &&
+      index >= 0 &&
+      index < size(list)
+    ) {
+      if (index === 0) {
+        list = list.next;
+      } else if (index === size(list) - 1) {
+        pop();
+      } else {
+        let currentNode;
+
+        if (index === 1) {
+          currentNode = list;
+        } else {
+          currentNode = { ...list };
+
+          for (let i = 0; i < index - 1; i++) {
+            currentNode = currentNode.next;
+          }
+        }
+
+        currentNode.next = currentNode.next.next;
+      }
+    } else {
+      throw new Error("There is no node at the given index!");
     }
   };
 
@@ -177,6 +208,7 @@ const LinkedList = () => {
     find,
     toString,
     insertAt,
+    removeAt,
   };
 };
 
